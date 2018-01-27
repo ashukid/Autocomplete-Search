@@ -6,4 +6,5 @@ app_name = 'searchpage'
 
 urlpatterns = [
     url(r'^index/$',views.IndexView.as_view(),name='index'),
+    url(r'^query/$',views.search_query,name='search_query'),
 ] 

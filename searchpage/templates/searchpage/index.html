@@ -1,8 +1,84 @@
 <html>
 	<head>
 		<title>Autocomplete Search</title>
+		<style type="text/css">
+			
+			.grid-container{
+				display: grid;
+				grid-template-areas: 'header header header'
+									 'left main right'
+									 'left result right';
+				grid-gap: 5px;
+				grid-template-columns: 150px auto 150px;
+				grid-template-rows: 10px 100px 500px;
+			}
+
+			.main{
+				grid-area: main;
+				/*background-color: blue;*/
+			}
+
+			.result{
+				grid-area: result;
+				/*background-color: red;*/
+			}
+
+		</style>
 	</head>
 
+	<body>
+		
+		<div class="grid-container">
+
+
+			<div class="main">
+				<h1>Search</h1>
+				<form class="form">
+					<!-- {% csrf_token %} -->
+					<input type="text" name="search" placeholder="search text" autofocus id="search" autocomplete="off">
+				</form>
+				<hr>
+			</div>
+			<div class="result" id="result">
+				<h4 id="count"></h4>
+			</div>
+			
+		</div>
+
+		<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+		<script>
+			
+			$("#search").keyup(function (e) {
+			      var searchquery = $(this).val();
+
+			      if(searchquery!=""){
+				      $.ajax({
+				      	url: '{% url "searchpage:search_query" %}',
+				      	data: {
+				          'searchquery': searchquery
+				        },
+				        dataType: 'json',
+				        success: function (data) {
+				          var total_count = Object.keys(data.data1).length + Object.keys(data.data2).length
+				          if(total_count<10){
+				          	var display_count =  total_count
+				          } else{
+				          	var display_count = 10
+				          }
+				          $("#count")[0].innerHTML="Showing results "+ display_count+ " out of " + total_count
+
+
+				        }
+				      });
+				   }
+
+
+
+		    });
+
+		</script>
+
+	</body>
 
 
 </html>
