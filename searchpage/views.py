@@ -19,7 +19,13 @@ def search_query(request):
 	data1={}
 	data2={}
 	for i in range(len(current1)):
-		data1[current1[i].title]=current1[i].url
+		data1[current1[i].title]=[current1[i].url,current1[i].id]
 	for i in range(len(current2)):
-		data2[current2[i].title]=current2[i].url
+		if(current2[i].title not in data1.keys()):	
+			data2[current2[i].title]=[current2[i].url,current2[i].id]
 	return JsonResponse({'data1':data1,'data2':data2})
+
+class DetailView(generic.DetailView):
+    model = Article
+    context_object_name = "article"
+    template_name = 'searchpage/article_page.html'
