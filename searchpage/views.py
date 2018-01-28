@@ -14,7 +14,7 @@ class IndexView(generic.TemplateView):
 def search_query(request):
 	query = request.GET['searchquery']
 	article = Article.objects.all()
-	current1 = article.filter(title__startswith=query)
+	current1 = article.filter(title__icontains=query)
 	current2 = article.filter(meta_data__icontains=query)
 	data1={}
 	data2={}
